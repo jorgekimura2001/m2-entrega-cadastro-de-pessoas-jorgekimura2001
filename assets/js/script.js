@@ -1,10 +1,14 @@
 class Pessoas {
     static pessoasCadastradas = [];
-    static novoUsuario (pessoa){
-        Pessoas.pessoasCadastradas.push(pessoa)
+    static novoUsuario (novaPessoa){
+        const filtroEmail = this.pessoasCadastradas.filter((pessoa) => pessoa.email === novaPessoa.email)
+        if(filtroEmail.length === 0){
+            Pessoas.pessoasCadastradas.push(novaPessoa)
+        }
     }
-    static filtrar(){
-        const filtro = this.pessoas.filter()
+
+    static filtrarPorCargo(pessoa){
+        //console.log(pessoa.cargo)
     }
 }
 class Pessoa {
@@ -20,7 +24,6 @@ class Pessoa {
 }
 
 const btn_registrar = document.querySelector('#register-button')
-console.log(btn_registrar)
 btn_registrar.addEventListener('click', (event) => {
     event.preventDefault()
     const campoCadastroNome = document.querySelector('#nome');
@@ -30,6 +33,7 @@ btn_registrar.addEventListener('click', (event) => {
     const campoCadastroContato = document.querySelector('#contato');
     const campoCadastroTelefone = document.querySelector('#telefone');
     const campoCadastroCargo = document.querySelector('#cargo');
+
 
     const pessoa = new Pessoa(campoCadastroNome.value, campoCadastroSobrenome.value, campoCadastroDataNascimento.value, campoCadastroEmail.value, campoCadastroContato.value, campoCadastroTelefone.value, campoCadastroCargo.value)
     Pessoas.novoUsuario(pessoa)
@@ -56,4 +60,11 @@ function renderizarPessoa(){
         listaCadastrados.appendChild(li)
     })
 }
+const btn_pesquisar = document.querySelector('#btn');
+const selecaoCargoPesquisa = document.querySelector('#cargoOption')
 
+btn_pesquisar.addEventListener('click', (event) => {
+    console.log(selecaoCargoPesquisa.value)
+    if(selecaoCargoPesquisa.value )
+    console.log(event)
+})
