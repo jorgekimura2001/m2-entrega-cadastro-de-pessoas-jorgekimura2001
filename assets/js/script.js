@@ -18,13 +18,11 @@ class Pessoa {
         this.cargo = cargo;
     }
 }
-// const form = document.querySelector('form')
-// form.addEventListener(('submit', () => {
-//     preventDefault()
-// }))
 
 const btn_registrar = document.querySelector('#register-button')
-btn_registrar.addEventListener('click', () => {
+console.log(btn_registrar)
+btn_registrar.addEventListener('click', (event) => {
+    event.preventDefault()
     const campoCadastroNome = document.querySelector('#nome');
     const campoCadastroSobrenome = document.querySelector('#sobrenome');
     const campoCadastroDataNascimento = document.querySelector('#data-nascimento');
@@ -36,6 +34,8 @@ btn_registrar.addEventListener('click', () => {
     const pessoa = new Pessoa(campoCadastroNome.value, campoCadastroSobrenome.value, campoCadastroDataNascimento.value, campoCadastroEmail.value, campoCadastroContato.value, campoCadastroTelefone.value, campoCadastroCargo.value)
     Pessoas.novoUsuario(pessoa)
     renderizarPessoa()
+    const totalCadastrados = document.querySelector('#total-alunos');
+    totalCadastrados.innerText = Pessoas.pessoasCadastradas.length
 })
 function renderizarPessoa(){
     const listaCadastrados = document.querySelector('#lista-de-alunos');
@@ -57,5 +57,3 @@ function renderizarPessoa(){
     })
 }
 
-const totalCadastrados = document.querySelector('#total-alunos');
-totalCadastrados.innerText = Pessoas.pessoas.length
