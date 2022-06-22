@@ -1,14 +1,29 @@
+const btn_pesquisar = document.querySelector('#btn');
+const selecaoCargoPesquisa = document.querySelector('#cargoOption')
+
 class Pessoas {
     static pessoasCadastradas = [];
     static novoUsuario (novaPessoa){
         const filtroEmail = this.pessoasCadastradas.filter((pessoa) => pessoa.email === novaPessoa.email)
         if(filtroEmail.length === 0){
             Pessoas.pessoasCadastradas.push(novaPessoa)
-        }
+            return this.pessoasCadastradas
+         }
+        return `Não pode cadastrar uma pessoa com o mesmo email`
     }
 
-    static filtrarPorCargo(pessoa){
-        //console.log(pessoa.cargo)
+    static filtrarPorCargo(){
+        let pessoasFiltradas = [];
+        Pessoas.pessoasCadastradas.filter((pessoa) =>{
+        if(selecaoCargoPesquisa.value === 'Todos'){
+            renderizarPessoas(Pessoas.pessoasCadastradas)
+        } 
+        if(pessoa.cargo === selecaoCargoPesquisa.value){
+            pessoasFiltradas.push(pessoa)
+            renderizarPessoas(pessoasFiltradas)
+        }
+        })
+        
     }
 }
 class Pessoa {
@@ -34,17 +49,19 @@ btn_registrar.addEventListener('click', (event) => {
     const campoCadastroTelefone = document.querySelector('#telefone');
     const campoCadastroCargo = document.querySelector('#cargo');
 
-
     const pessoa = new Pessoa(campoCadastroNome.value, campoCadastroSobrenome.value, campoCadastroDataNascimento.value, campoCadastroEmail.value, campoCadastroContato.value, campoCadastroTelefone.value, campoCadastroCargo.value)
     Pessoas.novoUsuario(pessoa)
-    renderizarPessoa()
+    console.log(pessoa)
+    renderizarPessoas(Pessoas.pessoasCadastradas)
     const totalCadastrados = document.querySelector('#total-alunos');
     totalCadastrados.innerText = Pessoas.pessoasCadastradas.length
 })
-function renderizarPessoa(){
+
+function renderizarPessoas(arrayPessoas){
+    console.log(arrayPessoas)
     const listaCadastrados = document.querySelector('#lista-de-alunos');
     listaCadastrados.innerHTML = "";
-    Pessoas.pessoasCadastradas.forEach((pessoa) => {
+    arrayPessoas.forEach((pessoa) => {
         const li = document.createElement('li');
         const nome = document.createElement('p');
         const sobrenome = document.createElement('p');
@@ -58,13 +75,10 @@ function renderizarPessoa(){
 
         li.append(nome, sobrenome, email, cargo)
         listaCadastrados.appendChild(li)
-    })
+   })
 }
-const btn_pesquisar = document.querySelector('#btn');
-const selecaoCargoPesquisa = document.querySelector('#cargoOption')
 
-btn_pesquisar.addEventListener('click', (event) => {
-    console.log(selecaoCargoPesquisa.value)
-    if(selecaoCargoPesquisa.value )
-    console.log(event)
+
+btn_pesquisar.addEventListener('click', () => {
+    Pessoas.filtrarPorCargo()
 })
